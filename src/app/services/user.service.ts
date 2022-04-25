@@ -26,12 +26,15 @@ export class UserService {
     }
     return false;
   }
-  // login(loguser: User) {
-  //   return this.http.post<User>(
-  //     `http://localhost:3000/login?email=${loguser.email}&password=${loguser.password}`
-  //   );
-  // }
+
+  apiUrl = 'https://smarthousebackend.herokuapp.com/user/';
   login(loguser: User) {
-    return this.http.post<Resp>('http://localhost:3000/login', loguser);
+    return this.http.post<Resp>(
+      'https://smarthousebackend.herokuapp.com/login',
+      loguser
+    );
+  }
+  register(newuser: User) {
+    return this.http.post<User>(`${this.apiUrl}add`, newuser);
   }
 }

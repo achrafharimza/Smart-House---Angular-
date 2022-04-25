@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
+import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -9,12 +10,16 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private tokenService: TokenService
+  ) {}
 
   loguser: User = {
-    nom: 'achraf',
-    email: 'achraf@gmail.com',
-    password: 'achraf',
+    nom: 'admin',
+    email: 'admin@gmail.com',
+    password: 'admin',
   };
 
   ngOnInit(): void {}
@@ -23,27 +28,16 @@ export class LoginComponent implements OnInit {
     return this.loguser.email != '' && this.loguser.password != '';
   }
   loginUser() {
-    this.userService.login(this.loguser).subscribe((res) => {
-      const token: any = res.accessToken;
-      const emailToken = this.payload(res.accessToken).email;
-      console.log(token);
-
-      if (this.loguser.email === emailToken) {
-        localStorage.setItem('token', token);
-        localStorage.setItem('email', emailToken);
-        this.userService.changeStatus(true);
+    this.userService.login(this.loguser).subscribe(
+      (res) => {
+        this.tokenService.handle(res);
+        this.tokenService.changeStatus(true);
         this.router.navigate(['/home']);
+      },
+      (error: Response) => {
+        alert('password incorect ' + error.status);
+        console.log(error);
       }
-    });
-  }
-  decode(payload: any) {
-    // console.log('payload : ', payload);
-    return JSON.parse(atob(payload));
-  }
-
-  payload(token: any) {
-    const payload = token.split('.')[1];
-    // console.log('payload : ', payload);
-    return this.decode(payload);
+    );
   }
 }

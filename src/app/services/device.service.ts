@@ -8,32 +8,39 @@ import { Device } from '../models/device';
 export class DeviceService {
   constructor(private http: HttpClient) {}
 
-  apiUrl = 'http://localhost:5000/devices';
+  apiUrl = 'https://smarthousebackend.herokuapp.com/device/';
   // json-server --watch dbDevices.json --port 5000
 
   findAll() {
-    return this.http.get<Device[]>('http://localhost:5000/devices');
+    return this.http.get<Device[]>(
+      'https://smarthousebackend.herokuapp.com/device/'
+    );
   }
   changeStatus(device: Device) {
-    return this.http.patch<Device>(`${this.apiUrl}/${device.id}`, {
+    device.status = this.getinverse(device.status);
+    return this.http.patch<Device>(
+      `${this.apiUrl}${device.id}`,
+      device.status
       //patch for update one element
-      status: this.getinverse(device.status),
-    });
+      // status: this.getinverse(device.status),
+    );
   }
   add(device: Device) {
     return this.http.post<Device>(this.apiUrl, device);
   }
   delete(id: number | undefined) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.apiUrl}${id}`);
   }
   update(device: Device) {
-    return this.http.put<Device>(`${this.apiUrl}/${device.id}`, device);
+    return this.http.put<Device>(`${this.apiUrl}${device.id}`, device);
   }
 
   getinverse(value: any) {
     switch (value) {
       case 'ON':
         return 'OFF';
+      case 'OFF':
+        return 'ON';
       default:
         return 'ON';
     }

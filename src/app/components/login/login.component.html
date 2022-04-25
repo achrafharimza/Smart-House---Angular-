@@ -19,7 +19,9 @@
                     <button [disabled]="!formIsValid()" (click)="loginUser()" class="btn btn-primary">Submit</button>
 
                 </form>
-                {{loguser | json}}
+                <div class="d-flex justify-content-center links">
+                    dont Have account?<a routerLink="/register" class="ml-2">register</a>
+                </div>
             </div>
         </div>
     </div>

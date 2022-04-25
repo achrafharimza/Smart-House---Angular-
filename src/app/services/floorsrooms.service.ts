@@ -9,8 +9,8 @@ import { Room } from '../models/room';
 export class FloorsroomsService {
   constructor(private http: HttpClient) {}
 
-  apiUrlFloor = 'http://localhost:5000/Floor';
-  apiUrlRoom = 'http://localhost:5000/romm';
+  apiUrlFloor = 'https://smarthousebackend.herokuapp.com/floor/';
+  apiUrlRoom = 'https://smarthousebackend.herokuapp.com/room/';
 
   findfloors() {
     return this.http.get<Floor[]>(this.apiUrlFloor);
