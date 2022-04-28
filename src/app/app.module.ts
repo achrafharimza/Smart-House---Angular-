@@ -13,6 +13,7 @@ import { FloorComponent } from './components/floor/floor.component';
 import { JwtInterceptor } from './services/jwt.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RegisterComponent } from './components/register/register.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { RegisterComponent } from './components/register/register.component';
     FloorComponent,
     RegisterComponent,
   ],
-  imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
+  imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule, NgbModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
